@@ -33,20 +33,22 @@ export default getArticlesFromApi = async (url) => {
         const SpanTagOpen = new RegExp("<span style=\"font-weight: 400;\">", "g");
         const SpanTagClose = new RegExp("</span>", "g");
         const Elipsis = new RegExp("&#8230;", "g");
+        const Apostrophe = new RegExp("&#8217;", "g");
         excerpt = excerpt.replace(PTagOpen, "");
         excerpt = excerpt.replace(PTagClose, "\n");
         excerpt = excerpt.replace(SpanTagOpen, "");
         excerpt = excerpt.replace(SpanTagClose, "");
         excerpt = excerpt.replace(Elipsis, "...");
+        excerpt = excerpt.replace(Apostrophe, "TEST" );
         var date = json[i].date;
         var featImage;
-        if (featured !== 0){
-            featImage = getFeaturedImageURL(featured);
-        }
-        else{
-            featImage = "https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image-300x225.png";
-        }
-        console.log(featImage);
+        // if (featured !== 0){
+        //     featImage = getFeaturedImageURL(featured);
+        // }
+        // else{
+        //     featImage = "https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image-300x225.png";
+        // }
+        // console.log(featImage);
         posts.push({title: title, author: author, excerpt: excerpt, date: date, featured_image: featImage});
     }
     } catch (error) {
@@ -57,19 +59,19 @@ export default getArticlesFromApi = async (url) => {
     );
 };  
 
-const getFeaturedImageURL = async (imageNumber) => {
-    console.log(imageNumber);
-    try {
-    let response = await fetch(
-        'https://trinitytimes.org/wp-json/wp/v2/media/' + imageNumber.toString()
-    );
-    let json = await response.json();
-    const imageURL = json.guid.rendered;
+// const getFeaturedImageURL = async (imageNumber) => {
+//     console.log(imageNumber);
+//     try {
+//     let response = await fetch(
+//         'https://trinitytimes.org/wp-json/wp/v2/media/' + imageNumber.toString()
+//     );
+//     let json = await response.json();
+//     const imageURL = json.guid.rendered;
 
-    } catch (error) {
-    console.error(error);
-    }
-    return(
-        imageURL
-    );
-};
+//     } catch (error) {
+//     console.error(error);
+//     }
+//     return(
+//         imageURL
+//     );
+// };

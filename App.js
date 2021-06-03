@@ -84,7 +84,7 @@ export function Search(){
   );
 }
 
-export function SearchArticles(){ //Create new file for search
+export function SearchArticles(){
   return(
     <SearchSection/>
   )

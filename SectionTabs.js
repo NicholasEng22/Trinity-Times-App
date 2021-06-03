@@ -92,6 +92,6 @@ export default () => {
 const styles = StyleSheet.create({
     scrollView: {
       backgroundColor: 'white',
-      maxHeight: '7%'
+      maxHeight: '7%',
     },
   });

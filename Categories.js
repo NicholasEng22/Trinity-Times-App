@@ -201,10 +201,14 @@ export class SearchSection extends Component {
             <>
                 <SearchBar
                     platform={'ios'}
+                    inputStyle={{backgroundColor: 'white'}}
+                    containerStyle={{backgroundColor: '#2C4BEE', borderWidth: 1, borderRadius: 0}}
                     value={this.state.search}
                     onChangeText={this.updateSearch}
                     onEndEditing={this.refreshSearch.bind(this)}
-                    placeholder="Search for a Trinity Times article here!"
+                    placeholderTextColor={'#000000'}
+                    showLoading={false}
+                    placeholder="Search for an article!"
                     />
             <FlatList 
             data={this.state.posts}
