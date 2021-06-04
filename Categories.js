@@ -25,7 +25,7 @@ export class Politics extends Component {
                 <View>
                     <Text style={styles.title}> {post.title} </Text>
                     <Image style={styles.image} source={require("./assets/image.png")} PlaceholderContent={require("./assets/image.png")}/>
-                    <Text style={styles.author}> {post.author} • {post.date} </Text>
+                    <Text style={styles.author}> {post.author}, {posts.job} • {post.date} </Text>
                     <Text style={styles.text}> {post.excerpt} </Text>
                 </View>
             );
@@ -191,7 +191,7 @@ export class SearchSection extends Component {
             return(
                 <View>
                     <Text style={styles.title}> {post.title} </Text>
-                    <Image style={styles.image} source={require("./assets/image.png")} PlaceholderContent={require("./assets/image.png")}/>
+                    <Image style={styles.image} source={{uri: post.featured_image}} PlaceholderContent={require("./assets/image.png")}/>
                     <Text style={styles.author}> {post.author} • {post.date} </Text>
                     <Text style={styles.text}> {post.excerpt} </Text>
                 </View>
@@ -201,8 +201,8 @@ export class SearchSection extends Component {
             <>
                 <SearchBar
                     platform={'ios'}
-                    inputStyle={{backgroundColor: 'white'}}
-                    containerStyle={{backgroundColor: '#2C4BEE', borderWidth: 1, borderRadius: 0}}
+                    //inputStyle={{backgroundColor: 'white'}}
+                    //containerStyle={{backgroundColor: '#2C4BEE', borderWidth: 1, borderRadius: 0}}
                     value={this.state.search}
                     onChangeText={this.updateSearch}
                     onEndEditing={this.refreshSearch.bind(this)}
@@ -213,7 +213,7 @@ export class SearchSection extends Component {
             <FlatList 
             data={this.state.posts}
             renderItem={(post) => renderPost(post.item)}
-            keyExtractor={item => item.title}
+            keyExtractor={(item, index) => item.id}
             />
             </>
         );
