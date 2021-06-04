@@ -29,7 +29,7 @@ export default getArticlesFromApi = async (url) => {
         var author = json[i].custom_fields.writer[0];
         var job = json[i].custom_fields.jobtitle[0];
         var featured = json[i].featured_media;
-        //var content = json[i];
+        var content = json[i].content.rendered;
         const PTagOpen = new RegExp("<p>", "g");
         const PTagClose = new RegExp("</p>", "g");
         const SpanTagOpen = new RegExp("<span style=\"font-weight: 400;\">", "g");
@@ -42,19 +42,33 @@ export default getArticlesFromApi = async (url) => {
         excerpt = excerpt.replace(SpanTagClose, "");
         excerpt = excerpt.replace(Elipsis, "...");
         excerpt = excerpt.replace(Apostrophe, "TEST" );
+        content = content.replace(PTagOpen, "");
+        content = content.replace(PTagClose, "\n");
+        content = content.replace(SpanTagOpen, "");
+        content = content.replace(SpanTagClose, "");
+        content = content.replace(Elipsis, "...");
+        content = content.replace(Apostrophe, "TEST" );
         var date = json[i].date;
         var featImage;
         if (featured !== 0){
-            getFeaturedImageURL(featured).then((img) => {
-                featImage = img;
+                try {
+    let response = await fetch(
+        'https://trinitytimes.org/wp-json/wp/v2/media/' + featured.toString()
+    );
+    let json = await response.json();
+    const featImage = json.guid.rendered;
                 const id = Math.random().toString(20).slice(-4);
-                posts.push({title: title, author: author, job: job, excerpt: excerpt, date: date, featured_image: featImage, id: id});
-            })
+                console.log("title is when it has img", title)
+                posts.push({title: title, author: author, job: job, excerpt: excerpt, date: date, featured_image: featImage, id: id, content: content,});
+    } catch (error) {
+    console.error(error);
+    }
         }
         else{
             const id = Math.random().toString(20).slice(-4);
             featImage = "https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image-300x225.png";
-            posts.push({title: title, author: author, job: job, excerpt: excerpt, date: date, featured_image: featImage, id: id});
+               console.log("title is when NO IMG", title)
+            posts.push({title: title, author: author, job: job, excerpt: excerpt, date: date, featured_image: featImage, id: id, content: content,});
         }
     }
     } catch (error) {
@@ -64,19 +78,3 @@ export default getArticlesFromApi = async (url) => {
         posts
     );
 };  
-
-const getFeaturedImageURL = async (imageNumber) => {
-    console.log(imageNumber);
-    try {
-    let response = await fetch(
-        'https://trinitytimes.org/wp-json/wp/v2/media/' + imageNumber.toString()
-    );
-    let json = await response.json();
-    const imageURL = json.guid.rendered;
-    return(
-        imageURL
-    );
-    } catch (error) {
-    console.error(error);
-    }
-};

@@ -181,28 +181,28 @@ export class SearchSection extends Component {
     refreshSearch = () => {
         getArticlesFromApi('https://trinitytimes.org/wp-json/wp/v2/posts?search=' + this.state.search).then((posts) => {
             this.setState({posts: posts});
+            console.log("POSTS", posts[2].title)
         }).catch(( error) => {
             console.log(error)
         });
     }
 
     render() {
-        function renderPost(post) {
-            return(
+        function renderPost(post) { return(
                 <View>
                     <Text style={styles.title}> {post.title} </Text>
                     <Image style={styles.image} source={{uri: post.featured_image}} PlaceholderContent={require("./assets/image.png")}/>
-                    <Text style={styles.author}> {post.author} • {post.date} </Text>
+                    <Text style={styles.author}>{post.author}, {post.job} • {post.date} </Text>
                     <Text style={styles.text}> {post.excerpt} </Text>
                 </View>
             );
-        };
+        }
         return (
             <>
                 <SearchBar
                     platform={'ios'}
                     //inputStyle={{backgroundColor: 'white'}}
-                    //containerStyle={{backgroundColor: '#2C4BEE', borderWidth: 1, borderRadius: 0}}
+                    // containerStyle={{backgroundColor: '#2C4BEE', borderWidth: 1, borderRadius: 0}}
                     value={this.state.search}
                     onChangeText={this.updateSearch}
                     onEndEditing={this.refreshSearch.bind(this)}
@@ -213,7 +213,7 @@ export class SearchSection extends Component {
             <FlatList 
             data={this.state.posts}
             renderItem={(post) => renderPost(post.item)}
-            keyExtractor={(item, index) => item.id}
+            keyExtractor={item => item.id}
             />
             </>
         );
