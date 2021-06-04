@@ -5,7 +5,7 @@ import { Tab } from 'react-native-elements';
 import { WebView } from 'react-native-webview';
 import {PostComponent} from './PostComponent';
 import {SectionComponent} from './SectionComponent';
-import {Politics, TrinLife, TrinSports, Opinion, ArtInn, SearchSection} from './Categories'
+import {Politics, TrinLife, TrinSports, Opinion, ArtInn, SearchSection, Category} from './Categories'
 //URL: https://github.com/react-native-elements/react-native-elements-app/blob/next/src/views/tabs.tsx
 
 var URL = 'https://trinitytimes.org';
@@ -61,23 +61,23 @@ export default () => {
                 URL = 'https://trinitytimes.org';
                 return <WebView source={{ uri: URL }} style={{ flex: 1 }} />;
             case 1:
-              return  <Politics/>;
+              return  <Category url="https://trinitytimes.org/wp-json/wp/v2/posts?categories=7"/>;
                 // URL = 'https://trinitytimes.org/category/politics-news/';
                 // return <WebView source={{ uri: URL }} style={{ flex: 1 }} />;
             case 2:
-              return <TrinLife/>;
+              return <Category url="https://trinitytimes.org/wp-json/wp/v2/posts?categories=6"/>;
                 // URL = 'https://trinitytimes.org/category/trinity-life/';
                 // return <WebView source={{ uri: URL }} style={{ flex: 1 }} />;
             case 3:
-              return <TrinSports/>;
+              return <Category url="https://trinitytimes.org/wp-json/wp/v2/posts?categories=4"/>;
                 // URL = 'https://trinitytimes.org/category/trinity-sports/';
                 // return <WebView source={{ uri: URL }} style={{ flex: 1 }} />;
             case 4:
-              return <Opinion/>;
+              return <Category url="https://trinitytimes.org/wp-json/wp/v2/posts?categories=3"/>;
                 // URL = 'https://trinitytimes.org/category/opinion/';
                 // return <WebView source={{ uri: URL }} style={{ flex: 1 }} />;
             case 5:
-              return <ArtInn/>;
+              return <Category url="https://trinitytimes.org/wp-json/wp/v2/posts?categories=23"/>;
                 // URL = 'https://trinitytimes.org/category/arts-innovation/';
                 // return <WebView source={{ uri: URL }} style={{ flex: 1 }} />;
             case 6:

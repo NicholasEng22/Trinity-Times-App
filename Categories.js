@@ -1,164 +1,48 @@
 import React, { Component } from 'react'
-import { Image, Text, ScrollView, StyleSheet, View, FlatList } from 'react-native';
+import { Image, Text, ScrollView, StyleSheet, View, FlatList, TouchableOpacity } from 'react-native';
 import { Tab, Divider, SearchBar } from 'react-native-elements';
 import { fonts } from 'react-native-elements/dist/config';
 import { WebView } from 'react-native-webview';
 import getArticlesFromAPI from './getArticlesFromAPI';
 
-export class categories extends Component {
-    
-};
+export class Category extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-export class Politics extends Component {
     state = {
-        posts: []
+        posts: [],
     };
-    render() {
-        getArticlesFromApi('https://trinitytimes.org/wp-json/wp/v2/posts?categories=7').then((posts) => {
+
+    componentDidMount(){
+        this.getData();
+    }
+
+    getData = () => {
+        getArticlesFromApi(this.props.url).then((posts) => {
             this.setState({posts: posts});
         }).catch(( error) => {
             console.log(error)
         });
+    }
 
-        function renderPost(post) {
-            return(
-                <View>
-                    <Text style={styles.title}> {post.title} </Text>
-                    <Image style={styles.image} source={require("./assets/image.png")} PlaceholderContent={require("./assets/image.png")}/>
-                    <Text style={styles.author}> {post.author}, {posts.job} • {post.date} </Text>
-                    <Text style={styles.text}> {post.excerpt} </Text>
-                </View>
-            );
-        };
-        return (
-            <FlatList 
-            data={this.state.posts}
-            renderItem={(post) => renderPost(post.item)}
-            keyExtractor={item => item.title}
-            />
-        );
-    };
-};
-
-export class TrinLife extends Component {
-    state = {
-        posts: []
-    };
     render() {
-        getArticlesFromApi('https://trinitytimes.org/wp-json/wp/v2/posts?categories=6').then((posts) => {
-            this.setState({posts: posts});
-        }).catch(( error) => {
-            console.log(error)
-        });
 
-        function renderPost(post) {
-            return(
-                <View>
-                    <Text style={styles.title}> {post.title} </Text>
-                    <Image style={styles.image} source={require("./assets/image.png")} PlaceholderContent={require("./assets/image.png")}/>
-                    <Text style={styles.author}> {post.author} • {post.date} </Text>
+        function renderPost(post) { return(
+                <TouchableOpacity>
+                    <Text style={styles.title}>{post.title} </Text>
+                    <Image style={styles.image} source={{uri: post.featured_image}} PlaceholderContent={require("./assets/image.png")}/>
+                    <Text style={styles.author}>{post.author}, {post.job} • {post.date} </Text>
                     <Text style={styles.text}> {post.excerpt} </Text>
-                </View>
+                </TouchableOpacity>
             );
-        };
+        }
         return (
-            <FlatList 
+            <FlatList
+            style={{backgroundColor: "white"}}
             data={this.state.posts}
             renderItem={(post) => renderPost(post.item)}
-            keyExtractor={item => item.title}
-            />
-        );
-    };
-};
-
-export class TrinSports extends Component {
-    state = {
-        posts: []
-    };
-    render() {
-        getArticlesFromApi('https://trinitytimes.org/wp-json/wp/v2/posts?categories=4').then((posts) => {
-            this.setState({posts: posts});
-        }).catch(( error) => {
-            console.log(error)
-        });
-
-        function renderPost(post) {
-            return(
-                <View>
-                    <Text style={styles.title}> {post.title} </Text>
-                    <Image style={styles.image} source={require("./assets/image.png")} PlaceholderContent={require("./assets/image.png")}/>
-                    <Text style={styles.author}> {post.author} • {post.date} </Text>
-                    <Text style={styles.text}> {post.excerpt} </Text>
-                </View>
-            );
-        };
-        return (
-            <FlatList 
-            data={this.state.posts}
-            renderItem={(post) => renderPost(post.item)}
-            keyExtractor={item => item.title}
-            />
-        );
-    };
-};
-
-export class Opinion extends Component {
-    state = {
-        posts: []
-    };
-    render() {
-        getArticlesFromApi('https://trinitytimes.org/wp-json/wp/v2/posts?categories=8').then((posts) => {
-            this.setState({posts: posts});
-        }).catch(( error) => {
-            console.log(error)
-        });
-
-        function renderPost(post) {
-            return(
-                <View>
-                    <Text style={styles.title}> {post.title} </Text>
-                    <Image style={styles.image} source={require("./assets/image.png")} PlaceholderContent={require("./assets/image.png")}/>
-                    <Text style={styles.author}> {post.author} • {post.date} </Text>
-                    <Text style={styles.text}> {post.excerpt} </Text>
-                </View>
-            );
-        };
-        return (
-            <FlatList 
-            data={this.state.posts}
-            renderItem={(post) => renderPost(post.item)}
-            keyExtractor={item => item.title}
-            />
-        );
-    };
-};
-
-export class ArtInn extends Component {
-    state = {
-        posts: []
-    };
-    render() {
-        getArticlesFromApi('https://trinitytimes.org/wp-json/wp/v2/posts?categories=23').then((posts) => {
-            this.setState({posts: posts});
-        }).catch(( error) => {
-            console.log(error)
-        });
-
-        function renderPost(post) {
-            return(
-                <View>
-                    <Text style={styles.title}> {post.title} </Text>
-                    <Image style={styles.image} source={require("./assets/image.png")} PlaceholderContent={require("./assets/image.png")}/>
-                    <Text style={styles.author}> {post.author} • {post.date} </Text>
-                    <Text style={styles.text}> {post.excerpt} </Text>
-                </View>
-            );
-        };
-        return (
-            <FlatList 
-            data={this.state.posts}
-            renderItem={(post) => renderPost(post.item)}
-            keyExtractor={item => item.title}
+            keyExtractor={item => item.id}
             />
         );
     };
@@ -190,7 +74,7 @@ export class SearchSection extends Component {
     render() {
         function renderPost(post) { return(
                 <View>
-                    <Text style={styles.title}> {post.title} </Text>
+                    <Text style={styles.title}>{post.title} </Text>
                     <Image style={styles.image} source={{uri: post.featured_image}} PlaceholderContent={require("./assets/image.png")}/>
                     <Text style={styles.author}>{post.author}, {post.job} • {post.date} </Text>
                     <Text style={styles.text}> {post.excerpt} </Text>

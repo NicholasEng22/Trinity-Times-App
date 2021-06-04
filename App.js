@@ -8,7 +8,7 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SectionTabs from './SectionTabs';
-import PostComponent from './SectionComponent';
+import {PostComponent} from './PostComponent';
 import SectionComponent from './SectionComponent';
 import {SearchSection} from './Categories';
 
@@ -33,6 +33,10 @@ export function Home(){
             fontWeight: 'bold',
           }
         }}
+      />
+      <Stack.Screen
+      name="Post"
+      component={PostComponent}
       />
     </Stack.Navigator>
   )
