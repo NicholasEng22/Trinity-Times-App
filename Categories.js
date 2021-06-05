@@ -4,6 +4,7 @@ import { Tab, Divider, SearchBar } from 'react-native-elements';
 import { fonts } from 'react-native-elements/dist/config';
 import { WebView } from 'react-native-webview';
 import getArticlesFromAPI from './getArticlesFromAPI';
+import getPageFromApi from './getPageFromApi';
 
 export class Category extends Component {
   constructor(props) {
@@ -32,8 +33,8 @@ export class Category extends Component {
                 <TouchableOpacity>
                     <Text style={styles.title}>{post.title} </Text>
                     <Image style={styles.image} source={{uri: post.featured_image}} PlaceholderContent={require("./assets/image.png")}/>
-                    <Text style={styles.author}>{post.author}, {post.job} • {post.date} </Text>
-                    <Text style={styles.text}> {post.excerpt} </Text>
+                    <Text style={styles.author}>{post.author}, {post.job} • {post.date}</Text>
+                    <Text style={styles.text}>{post.excerpt} </Text>
                 </TouchableOpacity>
             );
         }
@@ -77,7 +78,7 @@ export class SearchSection extends Component {
                     <Text style={styles.title}>{post.title} </Text>
                     <Image style={styles.image} source={{uri: post.featured_image}} PlaceholderContent={require("./assets/image.png")}/>
                     <Text style={styles.author}>{post.author}, {post.job} • {post.date} </Text>
-                    <Text style={styles.text}> {post.excerpt} </Text>
+                    <Text style={styles.text}>{post.excerpt} </Text>
                 </View>
             );
         }
@@ -103,6 +104,47 @@ export class SearchSection extends Component {
         );
     };
 };
+
+export class Page extends Component {
+    constructor(props) {
+      super(props);
+    }
+  
+      state = {
+          posts: [],
+      };
+  
+      componentDidMount(){
+          this.getData();
+      }
+  
+      getData = () => {
+          getArticlesFromApi(this.props.url).then((posts) => {
+              this.setState({posts: posts});
+          }).catch(( error) => {
+              console.log(error)
+          });
+      }
+  
+      render() {
+  
+          function renderPost(page) { return(
+                  <TouchableOpacity>
+                      <Text style={styles.title}>{page.title} </Text>
+                      <Text style={styles.text}> {post.content} </Text>
+                  </TouchableOpacity>
+              );
+          }
+          return (
+              <FlatList
+              style={{backgroundColor: "white"}}
+              data={this.state.posts}
+              renderItem={(post) => renderPost(post.item)}
+              keyExtractor={item => item.id}
+              />
+          );
+      };
+  };
 
 const styles = StyleSheet.create({
     scrollView: {

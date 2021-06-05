@@ -53,13 +53,16 @@ export default () => {
             title="Test Post Component"
             titleStyle={{ fontSize: 12 }}
             />
+            <Tab.Item
+            title="Webviewer"
+            titleStyle={{ fontSize: 12 }}
+            />
         </Tab>
         </ScrollView>
       {(() => {
         switch (index) {
             case 0:
-                URL = 'https://trinitytimes.org';
-                return <WebView source={{ uri: URL }} style={{ flex: 1 }} />;
+              return <Category url="https://trinitytimes.org/wp-json/wp/v2/posts/"/>
             case 1:
               return  <Category url="https://trinitytimes.org/wp-json/wp/v2/posts?categories=7"/>;
                 // URL = 'https://trinitytimes.org/category/politics-news/';
@@ -82,6 +85,9 @@ export default () => {
                 // return <WebView source={{ uri: URL }} style={{ flex: 1 }} />;
             case 6:
               return  <PostComponent/>;
+            case 7:
+              URL = 'https://trinitytimes.org';
+              return <WebView source={{ uri: URL }} style={{ flex: 1 }} />;
         }
        
       })()}

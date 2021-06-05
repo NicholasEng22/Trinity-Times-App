@@ -10,7 +10,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SectionTabs from './SectionTabs';
 import {PostComponent} from './PostComponent';
 import SectionComponent from './SectionComponent';
-import {SearchSection} from './Categories';
+import {SearchSection, Page} from './Categories';
 
 
 const TabNav = createBottomTabNavigator();
@@ -64,7 +64,8 @@ export function About(){
 }
 
 export function AboutWeb(){
-  return (<WebView source={{ uri: 'https://trinitytimes.org/about/' }} style={{ flex: 1 }} /> )
+  //return (<WebView source={{ uri: 'https://trinitytimes.org/about/' }} style={{ flex: 1 }} /> )
+  return (<Page url="https://trinitytimes.org/wp-json/wp/v2/pages/25"/>);
 }
 
 export function Search(){

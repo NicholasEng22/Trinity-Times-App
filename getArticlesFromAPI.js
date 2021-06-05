@@ -3,14 +3,6 @@ import { Image, Text, ScrollView, StyleSheet, View } from 'react-native';
 import { Tab, Divider } from 'react-native-elements';
 import { fonts } from 'react-native-elements/dist/config';
 import { WebView } from 'react-native-webview';
-
-/* 
-* excerpt text
-* Author
-* Date
-* Featured Image
-* Category
-*/
   
 export default getArticlesFromApi = async (url) => {
 
