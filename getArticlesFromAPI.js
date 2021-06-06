@@ -5,14 +5,6 @@ import { fonts } from 'react-native-elements/dist/config';
 import { WebView } from 'react-native-webview';
 import moment from 'moment';
 
-/* 
-* excerpt text
-* Author
-* Date
-* Featured Image
-* Category
-*/
-  
 export default getArticlesFromApi = async (url) => {
 
     /* Variables */

@@ -84,7 +84,6 @@ export default (navigation) => {
               return <ArtInnContainer url="https://trinitytimes.org/wp-json/wp/v2/posts?categories=23"/>;
                 // URL = 'https://trinitytimes.org/category/arts-innovation/';
                 // return <WebView source={{ uri: URL }} style={{ flex: 1 }} />;
-
         }
        
       })()}

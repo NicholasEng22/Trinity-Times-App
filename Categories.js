@@ -133,6 +133,47 @@ export class SearchSection extends Component {
     };
 };
 
+export class Page extends Component {
+    constructor(props) {
+      super(props);
+    }
+  
+      state = {
+          posts: [],
+      };
+  
+      componentDidMount(){
+          this.getData();
+      }
+  
+      getData = () => {
+          getArticlesFromApi(this.props.url).then((posts) => {
+              this.setState({posts: posts});
+          }).catch(( error) => {
+              console.log(error)
+          });
+      }
+  
+      render() {
+  
+          function renderPost(page) { return(
+                  <TouchableOpacity>
+                      <Text style={styles.title}>{page.title} </Text>
+                      <Text style={styles.text}> {post.content} </Text>
+                  </TouchableOpacity>
+              );
+          }
+          return (
+              <FlatList
+              style={{backgroundColor: "white"}}
+              data={this.state.posts}
+              renderItem={(post) => renderPost(post.item)}
+              keyExtractor={item => item.id}
+              />
+          );
+      };
+  };
+
 const styles = StyleSheet.create({
     scrollView: {
       backgroundColor: 'white'

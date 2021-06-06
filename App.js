@@ -71,7 +71,8 @@ export function About(){
 }
 
 export function AboutWeb(){
-  return (<WebView source={{ uri: 'https://trinitytimes.org/about/' }} style={{ flex: 1 }} /> )
+  //return (<WebView source={{ uri: 'https://trinitytimes.org/about/' }} style={{ flex: 1 }} /> )
+  return (<Page url="https://trinitytimes.org/wp-json/wp/v2/pages/25"/>);
 }
 
 export function Search(){
