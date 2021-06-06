@@ -4,6 +4,13 @@ import { Tab, Divider, SearchBar } from 'react-native-elements';
 import { fonts } from 'react-native-elements/dist/config';
 import { WebView } from 'react-native-webview';
 import getArticlesFromAPI from './getArticlesFromAPI';
+import { useNavigation } from '@react-navigation/native'; // https://reactnavigation.org/docs/connecting-navigation-prop/
+
+//https://reactnavigation.org/docs/use-navigation/
+export const CategoryContainer = (props) => {
+      const navigation = useNavigation();
+     return <Category {...props} navigation={navigation} />;
+}
 
 export class Category extends Component {
   constructor(props) {
@@ -27,13 +34,22 @@ export class Category extends Component {
     }
 
     render() {
+        const { navigation } = this.props;
 
         function renderPost(post) { return(
-                <TouchableOpacity>
+                <TouchableOpacity style={{backgroundColor: "white"}} onPress={() =>
+                     navigation.navigate('Post', {post})
+                } >
                     <Text style={styles.title}>{post.title} </Text>
+
+                    { post.featured_image !== "https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image-300x225.png" && 
+                    (
                     <Image style={styles.image} source={{uri: post.featured_image}} PlaceholderContent={require("./assets/image.png")}/>
-                    <Text style={styles.author}>{post.author}, {post.job} • {post.date} </Text>
-                    <Text style={styles.text}> {post.excerpt} </Text>
+                    )
+                    }
+                    <Text style={styles.author}>{post.author}, {post.job} {"\n"}{post.date} </Text>
+                    <Text style={styles.text}>{post.excerpt} </Text>
+                    
                 </TouchableOpacity>
             );
         }
@@ -49,6 +65,10 @@ export class Category extends Component {
 };
 
 export class SearchSection extends Component {
+  constructor(props) {
+    super(props);
+  }
+
     state = {
         posts: [],
         search: '',
@@ -72,13 +92,22 @@ export class SearchSection extends Component {
     }
 
     render() {
+        const { navigation } = this.props;
         function renderPost(post) { return(
-                <View>
+                <TouchableOpacity style={{backgroundColor: "white"}} onPress={() =>
+                     navigation.navigate('Post', {post})
+                } >
                     <Text style={styles.title}>{post.title} </Text>
+
+                    { post.featured_image !== "https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image-300x225.png" && 
+                    (
                     <Image style={styles.image} source={{uri: post.featured_image}} PlaceholderContent={require("./assets/image.png")}/>
-                    <Text style={styles.author}>{post.author}, {post.job} • {post.date} </Text>
-                    <Text style={styles.text}> {post.excerpt} </Text>
-                </View>
+                    )
+                    }
+                    <Text style={styles.author}>{post.author}, {post.job} {"\n"}{post.date} </Text>
+                    <Text style={styles.text}>{post.excerpt} </Text>
+                    
+                </TouchableOpacity>
             );
         }
         return (

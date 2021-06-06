@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, Text, ScrollView, StyleSheet, View, FlatList } from 'react-native';
+import { Image, Text, ScrollView, StyleSheet, View, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { Tab, Divider } from 'react-native-elements';
 import { fonts } from 'react-native-elements/dist/config';
 import { WebView } from 'react-native-webview';
@@ -10,6 +10,7 @@ export class SectionComponent extends Component {
     state = {
         posts: []
     };
+
     render() {
         getArticlesFromApi('https://trinitytimes.org/wp-json/wp/v2/posts?categories=7').then((posts) => {
             this.setState({posts: posts});
@@ -19,12 +20,17 @@ export class SectionComponent extends Component {
 
         function renderPost(post) {
             return(
-                <View>
+                <TouchableWithoutFeedback onPress={() => {
+                    console.log("props")
+                    navigation.navigate('Post')
+                }
+                }
+>
                     <Text style={styles.title}> {post.title} </Text>
                     <Image style={styles.image} source={require("./assets/image.png")} PlaceholderContent={require("./assets/image.png")}/>
                     <Text style={styles.author}> {post.author} • {post.date} </Text>
                     <Text style={styles.text}> {post.excerpt} </Text>
-                </View>
+                </TouchableWithoutFeedback>
             );
         };
         return (

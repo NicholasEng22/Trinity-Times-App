@@ -11,7 +11,8 @@ import SectionTabs from './SectionTabs';
 import {PostComponent} from './PostComponent';
 import SectionComponent from './SectionComponent';
 import {SearchSection} from './Categories';
-
+import { SearchContainer } from './Containers/SearchContainer';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const TabNav = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -37,6 +38,12 @@ export function Home(){
       <Stack.Screen
       name="Post"
       component={PostComponent}
+      options = {{
+    headerTitle:'Post',
+    headerTitleStyle: {color:'white'},
+    headerStyle: {backgroundColor:'#2C4BEE'},
+    headerTintColor: 'white'
+  }}
       />
     </Stack.Navigator>
   )
@@ -72,7 +79,7 @@ export function Search(){
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
-        component={SearchArticles}
+        component={SearchContainer}
         options={{
           title: 'Search',
           headerStyle: {
@@ -88,11 +95,11 @@ export function Search(){
   );
 }
 
-export function SearchArticles(){
-  return(
-    <SearchSection/>
-  )
-}
+// export function SearchArticles(){
+//   return(
+//     <SearchSection/>
+//   )
+// }
 
 export default function App() {
   return (
@@ -101,8 +108,28 @@ export default function App() {
         activeTintColor: '#ffffff',
         inactiveTintColor: '#ffffff',
         activeBackgroundColor: '#2C4BEE',
-        inactiveBackgroundColor: '#2C4BEE'
-      }}>
+        inactiveBackgroundColor: '#2C4BEE',
+        headerTintColor: 'white',
+        showLabel: false,
+        //  labelStyle: { fontSize: 0 },
+      }}
+      
+      screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Home') {
+              iconName = 'home-outline';
+            } else if (route.name === 'Search') {
+              iconName = 'ios-search-outline'
+            } else if (route.name=== 'About') {
+              iconName = 'ios-information-circle'
+            }
+            return <Ionicons name={iconName} size={size} color={color} />;
+
+          }})}
+      
+      >
         <TabNav.Screen name="Home" component={Home} />
         <TabNav.Screen name="Search" component={Search} />
         <TabNav.Screen name="About" component={About} />
