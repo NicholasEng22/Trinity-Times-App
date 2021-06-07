@@ -3,7 +3,7 @@ import { Image, Text, ScrollView, StyleSheet, View } from 'react-native';
 import { Tab, Divider } from 'react-native-elements';
 import { fonts } from 'react-native-elements/dist/config';
 
-export default getPageFromApi = async (url) => {
+export const getPageFromApi = async (url) => {
 
     /* Variables */
 
@@ -12,26 +12,27 @@ export default getPageFromApi = async (url) => {
         url
     );
     let json = await response.json();
+    console.log(json)
     const title = json.title.rendered;
     var content = json.content.rendered;
-    const PTagOpen = new RegExp("<p>", "g");
-    const PTagClose = new RegExp("</p>", "g");
-    const BoldTagOpen = new RegExp("<strong>", "g");
-    const BoldTagClose = new RegExp("</strong>", "g");
+    
     const Apostrophe = new RegExp("&#8217;", "g");
     const PageBreak = new RegExp("<br />", "g");
-    content = content.replace(PTagOpen, "");
-    content = content.replace(PTagClose, "\n");
-    content = content.replace(BoldTagOpen, "");
-    content = content.replace(BoldTagClose, "");
+    const AngleBrackets = new RegExp("<.*?>", "g")
+    const Elipsis = new RegExp("&#8230;", "g");
+    const NBSP = new RegExp("&nbsp;", "g");
     content = content.replace(Apostrophe, "'");
     content = content.replace(PageBreak, "");
-    page = {title: title, content: content,};
-
+    content = content.replace(Elipsis, "...");
+    content = content.replace(NBSP, "")
+    content = content.replace(AngleBrackets, "");
+    const id = Math.random().toString(20).slice(-4);
+    page = {id: id, title: title, content: content};   
+    return page
     } catch (error) {
     console.error(error);
     }
-    return(
-        page
-    );
+    // return(
+    //     page
+    // );
 };  

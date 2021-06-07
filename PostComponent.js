@@ -3,7 +3,7 @@ import { Image, Text, ScrollView, StyleSheet, View, FlatList } from 'react-nativ
 import { Tab, Divider } from 'react-native-elements';
 import { fonts } from 'react-native-elements/dist/config';
 import { WebView } from 'react-native-webview';
-import getArticleFromAPI from './getArticleFromAPI';
+
 
 
 export class PostComponent extends Component {
@@ -15,13 +15,6 @@ export class PostComponent extends Component {
 
     render() {
         const { post } = this.props.route.params
-
-
-        getArticleFromApi('https://trinitytimes.org/wp-json/wp/v2/posts/1738').then((post) => {
-            this.setState({post: post});
-        }).catch(( error) => {
-            console.log(error)
-        });
 
         return (
             <ScrollView> 

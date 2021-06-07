@@ -5,6 +5,9 @@ import { fonts } from 'react-native-elements/dist/config';
 import { WebView } from 'react-native-webview';
 import getArticlesFromAPI from './getArticlesFromAPI';
 import { useNavigation } from '@react-navigation/native'; // https://reactnavigation.org/docs/connecting-navigation-prop/
+import { FONT_FAMILY, FONT_TITLE_SIZE, FONT_TEXT_SIZE, FONT_SECTION_TEXT_SIZE } from './Constants';
+import { getPageFromApi } from './getPageFromApi';
+import { SafeAreaView } from 'react-native';
 
 //https://reactnavigation.org/docs/use-navigation/
 export const CategoryContainer = (props) => {
@@ -137,41 +140,43 @@ export class Page extends Component {
     constructor(props) {
       super(props);
     }
+
+    state = {
+        posts: []
+    };
   
-      state = {
-          posts: [],
-      };
-  
-      componentDidMount(){
-          this.getData();
-      }
-  
-      getData = () => {
-          getArticlesFromApi(this.props.url).then((posts) => {
-              this.setState({posts: posts});
-          }).catch(( error) => {
-              console.log(error)
-          });
-      }
-  
-      render() {
-  
-          function renderPost(page) { return(
-                  <TouchableOpacity>
-                      <Text style={styles.title}>{page.title} </Text>
-                      <Text style={styles.text}> {post.content} </Text>
-                  </TouchableOpacity>
-              );
-          }
-          return (
-              <FlatList
-              style={{backgroundColor: "white"}}
-              data={this.state.posts}
-              renderItem={(post) => renderPost(post.item)}
-              keyExtractor={item => item.id}
-              />
-          );
-      };
+    componentDidMount(){
+        this.getData();
+    }
+
+    getData = () => {
+        getPageFromApi(this.props.url).then((posts) => {
+             this.setState({posts: posts});
+        }).catch(( error) => {
+            console.log(error)
+        });
+    }
+
+    render() {
+        return (
+            <SafeAreaView>
+                <View>
+                    <Text style={styles.title}> 
+                        {this.state.posts.title}
+                    </Text>
+                    <Text style={styles.text}>
+                        {this.state.posts.content}
+                    </Text>
+                </View>
+            </SafeAreaView>
+            // <FlatList
+            // style={{backgroundColor: "white"}}
+            // data={this.state.posts}
+            // renderItem={(post) => renderPost(post.item)}
+            // keyExtractor={item => item.id}
+            // />
+        );
+    };
   };
 
 const styles = StyleSheet.create({
@@ -184,30 +189,21 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15,
         textAlign: 'left',
-        fontFamily: 'Times New Roman', //PT Serif is the actually font that is being used
+        fontFamily: FONT_FAMILY, //PT Serif is the actually font that is being used
         fontStyle: 'italic',
-        fontSize: 30,
+        fontSize: FONT_TITLE_SIZE,
     },
     sectionTitle: {
         paddingTop: 15,
         paddingLeft: 15,
         paddingRight: 15,
         textAlign: 'left',
-        fontFamily: 'Times New Roman',
+        fontFamily: FONT_FAMILY,
         fontSize: 24,
-
     },
     post: {
         paddingTop: 10,
         paddingBottom: 10,
-    },
-    aboutWriter: {
-        paddingLeft: 15,
-        paddingRight: 15,
-        paddingTop: 20,
-        fontFamily: 'Times New Roman',
-        fontWeight: 'bold',
-        fontSize: 24,
     },
     image: {
         alignSelf: 'center',
@@ -220,26 +216,25 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15,
         textAlign: 'left',
-        fontFamily: 'Times New Roman',
-        fontSize: 16,
+        fontFamily: FONT_FAMILY,
+        fontSize: FONT_TEXT_SIZE,
     },
     date: {
         paddingLeft: 15,
         paddingRight: 15,
         textAlign: 'left',
-        fontFamily: 'Times New Roman',
-        fontSize: 16,
+        fontFamily: FONT_FAMILY,
+        fontSize: FONT_TEXT_SIZE,
     },
     text: {
         paddingTop: 20,
         paddingBottom: 10,
         paddingLeft: 15,
         paddingRight: 15,
-        color: 'black',
         textAlign: 'left',
-        fontFamily: 'Times New Roman',
+        fontFamily: FONT_FAMILY,
         color: 'black',
-        fontSize: 16,
+        fontSize: FONT_TEXT_SIZE,
     },
     bar: {
         textAlign: 'center',
@@ -260,45 +255,35 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15,
         fontSize: 24,
-        fontFamily: 'Times New Roman',
+        fontFamily: FONT_FAMILY,
         fontStyle: 'italic',
         textAlign: 'left',
-    },
-    sectionBulletTitle: {
-        paddingBottom: 15,
-        paddingLeft: 15,
-        paddingRight: 15,
-        textAlign: 'left',
-        fontFamily: 'Times New Roman',
-        fontStyle: 'italic',
-        color: 'black',
-        fontSize: 24,
     },
     sectionAuthor: {
         paddingLeft: 15,
         paddingRight: 15,
         textAlign: 'left',
-        fontFamily: 'Times New Roman',
+        fontFamily: FONT_FAMILY,
         fontWeight: 'bold',
         color: 'black',
-        fontSize: 15,
+        fontSize: FONT_SECTION_TEXT_SIZE,
     },
     sectionDate: {
         paddingLeft: 15,
         paddingRight: 15,
         paddingBottom: 10,
         textAlign: 'left',
-        fontFamily: 'Times New Roman',
+        fontFamily: FONT_FAMILY,
         color: 'black',
-        fontSize: 15,
+        fontSize: FONT_SECTION_TEXT_SIZE,
     },
     sectionRenderedText: {
         paddingBottom: 20,
         paddingLeft: 15,
         paddingRight: 15,
         textAlign: 'left',
-        fontFamily: 'Times New Roman',
+        fontFamily: FONT_FAMILY,
         color: 'black',
-        fontSize: 15,
+        fontSize: FONT_SECTION_TEXT_SIZE,
     },
   });           
